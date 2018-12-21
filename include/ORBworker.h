@@ -11,9 +11,11 @@
 class ORBWorker {
 
   public:
-    explicit ORBWorker(ros::NodeHandle &n);
+    explicit ORBWorker(ros::NodeHandle &n, std::string &mode);
 
   private:
+    void setupMono();
+    void setupStereo();
     void imageCallback(const sensor_msgs::ImageConstPtr &msg);
 
     ros::Publisher pubOdometry_;
