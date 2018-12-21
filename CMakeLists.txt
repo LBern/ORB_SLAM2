@@ -12,7 +12,7 @@ find_package(catkin_simple 0.1.0 REQUIRED COMPONENTS
 
 catkin_simple(ALL_DEPS_REQUIRED)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -march=native -Wall")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -march=native")
 
 LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake_modules)
 
@@ -28,11 +28,12 @@ find_package(Eigen3 3.1.0 REQUIRED)
 find_package(Pangolin REQUIRED)
 
 include_directories(
-${PROJECT_SOURCE_DIR}
-${PROJECT_SOURCE_DIR}/include
-${EIGEN3_INCLUDE_DIR}
-${Pangolin_INCLUDE_DIRS}
+  ${PROJECT_SOURCE_DIR}
+  ${PROJECT_SOURCE_DIR}/include
+  ${EIGEN3_INCLUDE_DIR}
+  ${Pangolin_INCLUDE_DIRS}
 )
+
 cs_add_library(${PROJECT_NAME}
   src/System.cc
   src/Tracking.cc
@@ -65,6 +66,6 @@ target_link_libraries(${PROJECT_NAME}
 
 # Build examples
 
-add_executable(orbOdometry src/ORBnode.cc)
-target_link_libraries(orbOdometry ${catkin_LIBRARIES})
+add_executable(orbOdometry src/ORBnode.cc src/ORBworker.cc)
+target_link_libraries(orbOdometry ${PROJECT_NAME} ${catkin_LIBRARIES})
 
