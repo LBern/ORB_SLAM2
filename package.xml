@@ -15,14 +15,13 @@
     <depend>glog_catkin</depend>
     <depend>message_generation</depend>
     <depend>message_runtime</depend>
-    <depend>minkindr</depend>
     <depend>roscpp</depend>
     <depend>sensor_msgs</depend>
     <depend>tf</depend>
     <depend>doxygen_catkin</depend>
     <depend>gflags_catkin</depend>
     <depend>opencv3_catkin</depend>
-    <depend>opencv_blobs_catkin</depend>
+    <depend>eigen_catkin</depend>
 
 </package>
 
