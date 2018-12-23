@@ -16,7 +16,10 @@ class ORBWorker {
   private:
     void setupMono();
     void setupStereo();
-    void imageCallback(const sensor_msgs::ImageConstPtr &msg);
+    void monoImageCallback(const sensor_msgs::ImageConstPtr &msg);
+    void stereoImageCallback(const sensor_msgs::ImageConstPtr& msgLeft,
+        const sensor_msgs::ImageConstPtr& msgRight);
+    void publishOdometry(const cv::Mat &Tcw, const ros::Time &time);
 
     ros::Publisher pubOdometry_;
     ros::Subscriber subImageRaw_;
