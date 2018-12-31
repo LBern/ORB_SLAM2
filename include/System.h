@@ -30,19 +30,14 @@
 #include<stdlib.h>
 
 #include "Tracking.h"
-#include "FrameDrawer.h"
-#include "MapDrawer.h"
 #include "Map.h"
 #include "LocalMapping.h"
 #include "KeyFrameDatabase.h"
 #include "ORBVocabulary.h"
-#include "Viewer.h"
 
 namespace ORB_SLAM2
 {
 
-class Viewer;
-class FrameDrawer;
 class Map;
 class Tracking;
 class LocalMapping;
@@ -59,8 +54,8 @@ public:
 
 public:
 
-    // Initialize the SLAM system. It launches the Local Mapping, Loop Closing and Viewer threads.
-    System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor, const bool bUseViewer = true);
+    // Initialize the SLAM system. It launches the Local Mapping and Loop Closing thread.
+    System(const string &strVocFile, const string &strSettingsFile, const eSensor sensor);
 
     // Proccess the given stereo frame. Images must be synchronized and rectified.
     // Input images: RGB (CV_8UC3) or grayscale (CV_8U). RGB is converted to grayscale.
@@ -145,19 +140,9 @@ private:
     // Local Mapper. It manages the local map and performs local bundle adjustment.
     LocalMapping* mpLocalMapper;
 
-    // Loop Closer. It searches loops with every new keyframe. If there is a loop it performs
-    // a pose graph optimization and full bundle adjustment (in a new thread) afterwards.
-
-    // The viewer draws the map and the current camera pose. It uses Pangolin.
-    Viewer* mpViewer;
-
-    FrameDrawer* mpFrameDrawer;
-    MapDrawer* mpMapDrawer;
-
-    // System threads: Local Mapping, Viewer.
+    // System threads: Local Mapping.
     // The Tracking thread "lives" in the main execution thread that creates the System object.
     std::thread* mptLocalMapping;
-    std::thread* mptViewer;
 
     // Reset flag
     std::mutex mMutexReset;

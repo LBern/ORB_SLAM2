@@ -10,15 +10,17 @@ ORBWorker::ORBWorker(ros::NodeHandle &n, std::string &mode) : nh_(n) {
     setupMono();
   else if (mode == "stereo")
     setupStereo();
+  else 
+    setupStereo();
 }
 
 void ORBWorker::setupMono() {
-  subImageRaw_ = nh_.subscribe("/camera/image_rawR", 1, 
+  subImageRaw_ = nh_.subscribe("/camera/left/image_raw", 1, 
       &ORBWorker::monoImageCallback, this);
   pubOdometry_ = nh_.advertise<nav_msgs::Odometry>("/orb_odom", 5);
   mSlam_ = make_unique<ORB_SLAM2::System>(
       "Vocabulary/ORBvoc.txt", "calibration/KITTI00-02-MONO.yaml", 
-      ORB_SLAM2::System::MONOCULAR, true);
+      ORB_SLAM2::System::MONOCULAR);
 }
 
 void ORBWorker::setupStereo() {
@@ -34,8 +36,9 @@ void ORBWorker::setupStereo() {
   pubOdometry_ = nh_.advertise<nav_msgs::Odometry>("/orb_odom", 5);
 
   mSlam_ = make_unique<ORB_SLAM2::System>(
-      "Vocabulary/ORBvoc.txt", "calibration/KITTI03-STEREO.yaml", 
-      ORB_SLAM2::System::STEREO, true);
+      "/home/berlukas/Documents/workspace/global/src/orb_odometry/Vocabulary/ORBvoc.txt",
+      "/home/berlukas/Documents/workspace/global/src/orb_odometry/calibration/KITTI00-02-STEREO.yaml", 
+      ORB_SLAM2::System::STEREO);
 }
 
 void ORBWorker::monoImageCallback(const sensor_msgs::ImageConstPtr &msg) {
